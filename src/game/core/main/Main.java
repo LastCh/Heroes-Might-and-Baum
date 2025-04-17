@@ -7,6 +7,5 @@ public class Main {
         MenuManager menuManager = new MenuManager();
         menuManager.run();
     }
-
 }
 

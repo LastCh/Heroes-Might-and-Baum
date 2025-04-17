@@ -86,7 +86,6 @@ public class HumanPlayer extends Player {
                     return;
                 }
 
-
                 if (diag % 2 == 0) {
                     spendMovementPoints(1);
                 }
@@ -105,7 +104,6 @@ public class HumanPlayer extends Player {
     }
 
     public boolean isValidPosition(Position newPos) {
-        // Проверка на допустимость позиции на поле
         return newPos.x() >= 0 && newPos.x() < 10 && newPos.y() >= 0 && newPos.y() < 10;
     }
 }

@@ -21,7 +21,7 @@ public class GameManager {
         this.field = generation.generateField(10, 10);
 
         botCastle = new Castle(new Position(8, 8), scanner, "\u001B[31;47m", 20);
-        playerCastle = new Castle(new Position(1, 1), scanner, "\u001B[31;47m", 20);
+        playerCastle = new Castle(new Position(1, 1), scanner, "\u001B[34;47m", 20);
 
         field.getCell(8, 8).addObject(botCastle);
         field.getCell(1, 1).addObject(playerCastle);
