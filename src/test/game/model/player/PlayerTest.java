@@ -6,7 +6,9 @@ import game.map.Field;
 import game.model.building.onmap.Castle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {

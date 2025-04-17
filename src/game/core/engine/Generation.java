@@ -15,10 +15,9 @@ public class Generation {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 TerrainType[] types = TerrainType.values();
-                if((x == y) && x != 0 && x != 1 && x != 8 && x != 9){
+                if ((x == y) && x != 0 && x != 1 && x != 8 && x != 9) {
                     field.getCell(x, y).setTerrainType(ROAD);
-                }
-                else{
+                } else {
                     field.getCell(x, y).setTerrainType(types[random.nextInt(types.length)]);
                 }
             }

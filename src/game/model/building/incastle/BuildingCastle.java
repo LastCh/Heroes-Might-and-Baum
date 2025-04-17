@@ -8,7 +8,7 @@ public abstract class BuildingCastle {
     protected final Castle affiliationCastle;
     protected final Player affiliationPlayer;
 
-    public BuildingCastle(Castle castle, Player player ){
+    public BuildingCastle(Castle castle, Player player) {
         affiliationCastle = castle;
         affiliationPlayer = player;
     }

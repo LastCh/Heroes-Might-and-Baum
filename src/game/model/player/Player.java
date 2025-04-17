@@ -23,7 +23,7 @@ public abstract class Player extends FieldObject implements Movable {
     protected int gold;
 
     public Player(Position startPosition, Direction startDirection, String colorCode, Castle castle, int priority, int points, int gold) {
-        super(startPosition, colorCode + "☻" +" " + "\u001B[0m", priority);
+        super(startPosition, colorCode + "☻" + " " + "\u001B[0m", priority);
         this.direction = startDirection;
         this.maxMovementPoints = points;
         this.movementPoints = points;
@@ -51,7 +51,7 @@ public abstract class Player extends FieldObject implements Movable {
 
     public void takeDamage(int damage) {
         health -= damage;
-        if(health <= 0) {
+        if (health <= 0) {
             System.out.println(this.getClass().getSimpleName() + " погиб!");
         }
     }

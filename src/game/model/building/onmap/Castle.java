@@ -27,6 +27,7 @@ public class Castle extends FieldObject implements Immovable {
     public boolean contains(BuildingCastle obj) {
         return objects.contains(obj);
     }
+
     public void addObject(BuildingCastle obj) {
         objects.add(obj);
     }

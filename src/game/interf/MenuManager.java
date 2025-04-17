@@ -83,20 +83,24 @@ public class MenuManager {
         gmanager.startGame();
     }
 
-    public void setComputerPlayer(ComputerPlayer player){
+    public void setComputerPlayer(ComputerPlayer player) {
         cplayer = player;
     }
 
-    public ComputerPlayer getComputerPlayer(){
+    public ComputerPlayer getComputerPlayer() {
         return cplayer;
     }
 
-    public void setHumanPlayer(HumanPlayer player){
+    public void setHumanPlayer(HumanPlayer player) {
         hplayer = player;
     }
 
-    public HumanPlayer getHumanPlayer(){
+    public HumanPlayer getHumanPlayer() {
         return hplayer;
+    }
+
+    public GameMenu getGameMenu() {
+        return gameMenu;
     }
 
     private void loadGame() {

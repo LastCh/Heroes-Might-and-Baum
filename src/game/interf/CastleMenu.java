@@ -6,7 +6,6 @@ public class CastleMenu extends Inter {
     private final BuyUnitMenu buyUnitMenu = new BuyUnitMenu();
 
 
-
     @Override
     public void display() {
 

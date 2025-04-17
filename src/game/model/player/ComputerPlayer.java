@@ -22,23 +22,23 @@ public class ComputerPlayer extends Player {
         moveTowardsCastle(field);
 
         // Проверка расстояния для атаки
-        if(isInRange(humanPlayer, 2)) {
+        if (isInRange(humanPlayer, 2)) {
             this.attack(humanPlayer);
         }
 
         // Проверка позиции замка
         Castle targetCastleObj = field.getCastleAt(targetCastle);
-        if(getPosition().equals(targetCastleObj.getPosition()) && targetCastleObj != null) {
+        if (getPosition().equals(targetCastleObj.getPosition()) && targetCastleObj != null) {
             targetCastleObj.takeDamage(power);
-            System.out.println("Компьютер атакует ваш замок, у него осталось"+ targetCastleObj.getHealth() + "hp!");
+            System.out.println("Компьютер атакует ваш замок, у него осталось" + targetCastleObj.getHealth() + "hp!");
         }
     }
 
     private boolean tryAxisMove(int dx, int dy, Field field) {
-        if(dx == 0 && dy == 0) return false;
+        if (dx == 0 && dy == 0) return false;
 
         Position newPos = new Position(position.x() + dx, position.y() + dy);
-        if(isValidPosition(newPos, field)) {
+        if (isValidPosition(newPos, field)) {
             field.moveObject(this, position.x(), position.y(), newPos.x(), newPos.y());
             updatePosition(newPos.x(), newPos.y());
             spendMovementPoints(1); // Тратим очки
@@ -48,7 +48,7 @@ public class ComputerPlayer extends Player {
     }
 
     private void moveTowardsCastle(Field field) {
-        while(movementPoints > 0) {
+        while (movementPoints > 0) {
             Position current = getPosition();
             int dx = Integer.compare(targetCastle.x(), current.x());
             int dy = Integer.compare(targetCastle.y(), current.y());
@@ -56,16 +56,16 @@ public class ComputerPlayer extends Player {
             boolean moved = false;
 
             // Чередование порядок проверки осей
-            if(preferX) {
+            if (preferX) {
                 moved = tryAxisMove(dx, 0, field); // X
-                if(!moved) moved = tryAxisMove(0, dy, field); // Y
+                if (!moved) moved = tryAxisMove(0, dy, field); // Y
             } else {
                 moved = tryAxisMove(0, dy, field); // Y
-                if(!moved) moved = tryAxisMove(dx, 0, field); // X
+                if (!moved) moved = tryAxisMove(dx, 0, field); // X
             }
 
             // Если движение невозможно в нужном направлении - выход
-            if(!moved) break;
+            if (!moved) break;
         }
     }
 

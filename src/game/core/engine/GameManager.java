@@ -5,6 +5,7 @@ import game.map.Field;
 import game.model.player.HumanPlayer;
 import game.model.player.ComputerPlayer;
 import game.model.building.onmap.Castle;
+
 import java.util.Scanner;
 
 public class GameManager {
@@ -19,13 +20,13 @@ public class GameManager {
         Generation generation = new Generation();
         this.field = generation.generateField(10, 10);
 
-        botCastle = new Castle(new Position(8, 8), scanner,"\u001B[31;47m", 20);
-        playerCastle = new Castle(new Position(1, 1), scanner,"\u001B[31;47m", 20);
+        botCastle = new Castle(new Position(8, 8), scanner, "\u001B[31;47m", 20);
+        playerCastle = new Castle(new Position(1, 1), scanner, "\u001B[31;47m", 20);
 
         field.getCell(8, 8).addObject(botCastle);
         field.getCell(1, 1).addObject(playerCastle);
 
-        this.human = new HumanPlayer(new Position(0, 0),5, playerCastle, 2000);
+        this.human = new HumanPlayer(new Position(0, 0), 5, playerCastle, 2000);
         this.computer = new ComputerPlayer(new Position(9, 9), playerCastle.getPosition(), 5, botCastle, 500);
 
         field.getCell(0, 0).addObject(human);

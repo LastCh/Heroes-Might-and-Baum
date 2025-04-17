@@ -23,8 +23,13 @@ public class Field {
         }
     }
 
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
     public Cell getCell(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {

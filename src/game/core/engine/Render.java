@@ -5,6 +5,7 @@ import game.map.Field;
 import game.model.building.onmap.Castle;
 import game.model.player.ComputerPlayer;
 import game.model.player.HumanPlayer;
+
 import java.util.Scanner;
 
 public class Render {
@@ -41,10 +42,10 @@ public class Render {
                 case "A" -> safeMove(-1, 0);
                 case "D" -> safeMove(1, 0);
                 case "Q" -> {
-                    while(player.getMovementPoints() > 1) {
+                    while (player.getMovementPoints() > 1) {
                         safeMove(0, 0);
                     }
-                    if(computerPlayer.isAlive()) {
+                    if (computerPlayer.isAlive()) {
                         computerPlayer.performAITurn(field, player); // Вызов ИИ
                         computerPlayer.resetMovementPoints(); // Сбрасываем очки ИИ
                     }
@@ -56,8 +57,8 @@ public class Render {
                         return; // Выход в главное меню
                     }
                 }
-                case "SD", "DS"  -> safeMove(1, 1, 1);
-                case "AS", "SA"  -> safeMove(-1, 1, 1);
+                case "SD", "DS" -> safeMove(1, 1, 1);
+                case "AS", "SA" -> safeMove(-1, 1, 1);
                 case "AW", "WA" -> safeMove(-1, -1, 1);
                 case "WD", "DW" -> safeMove(1, -1, 1);
                 default -> {
@@ -66,17 +67,17 @@ public class Render {
                 }
             }
 
-            if(checkCastleCaptured()) {
+            if (checkCastleCaptured()) {
                 System.out.println("Замок захвачен!");
                 break;
             }
 
-            if(!player.isAlive()){
+            if (!player.isAlive()) {
                 System.out.println("Ваш герой погиб!");
                 break;
             }
 
-            if(!computerPlayer.isAlive()){
+            if (!computerPlayer.isAlive()) {
                 field.removePlayer(computerPlayer);
             }
         }
@@ -102,9 +103,7 @@ public class Render {
 
     public void renderField() {
         field.render();
-        System.out.println("Ваши очки передвижения: " + player.getMovementPoints());
-        System.out.println("Здоровье вашего замка: " + castlePlayer.getHealth());
-        System.out.println("Здоровье вражеского замка: " + castleBot.getHealth());
+        menu.getGameMenu().display(player.getMovementPoints(), castlePlayer.getHealth(), castleBot.getHealth());
     }
 
     private boolean checkCastleCaptured() {

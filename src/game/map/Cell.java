@@ -1,6 +1,7 @@
 package game.map;
 
 import game.api.FieldObject;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class Cell {
     public boolean contains(FieldObject obj) {
         return objects.contains(obj);
     }
+
     public void addObject(FieldObject obj) {
         objects.add(obj);
         objects.sort((a, b) -> Integer.compare(b.getPriority(), a.getPriority()));
