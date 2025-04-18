@@ -5,6 +5,7 @@ import game.map.TerrainType;
 
 import java.util.Random;
 
+import static game.map.TerrainType.GRASS;
 import static game.map.TerrainType.ROAD;
 
 public class Generation {
@@ -18,7 +19,13 @@ public class Generation {
                 if ((x == y) && x != 0 && x != 1 && x != 8 && x != 9) {
                     field.getCell(x, y).setTerrainType(ROAD);
                 } else {
-                    field.getCell(x, y).setTerrainType(types[random.nextInt(types.length)]);
+                    TerrainType type = types[random.nextInt(types.length)];
+                    if(type != ROAD) {
+                        field.getCell(x, y).setTerrainType(type);
+                    }
+                    else {
+                        field.getCell(x, y).setTerrainType(GRASS);
+                    }
                 }
             }
         }

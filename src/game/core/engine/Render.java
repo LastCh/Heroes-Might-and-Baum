@@ -37,13 +37,13 @@ public class Render {
             String input = scanner.nextLine().trim().toUpperCase();
 
             switch (input) {
-                case "W" -> safeMove(0, -1);
-                case "S" -> safeMove(0, 1);
-                case "A" -> safeMove(-1, 0);
-                case "D" -> safeMove(1, 0);
+                case "W" -> safeMove(0, -1, 0);
+                case "S" -> safeMove(0, 1, 0);
+                case "A" -> safeMove(-1, 0,0);
+                case "D" -> safeMove(1, 0,0 );
                 case "Q" -> {
                     while (player.getMovementPoints() > 1) {
-                        safeMove(0, 0);
+                        safeMove(0, 0, 0);
                     }
                     if (computerPlayer.isAlive()) {
                         computerPlayer.performAITurn(field, player); // Вызов ИИ
@@ -80,15 +80,6 @@ public class Render {
             if (!computerPlayer.isAlive()) {
                 field.removePlayer(computerPlayer);
             }
-        }
-    }
-
-    private void safeMove(int dx, int dy) {
-        clearConsole();
-        try {
-            player.move(dx, dy, field);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка движения: " + e.getMessage());
         }
     }
 

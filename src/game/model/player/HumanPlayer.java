@@ -19,91 +19,95 @@ public class HumanPlayer extends Player {
         // Логика взаимодействия
     }
 
-    @Override
-    public void move(int dx, int dy, Field field) {
-        if (movementPoints > 0) {
-            Position newPos = new Position(position.x() + dx, position.y() + dy);
-            if (isValidPosition(newPos)) {
+    public void move(int dx, int dy, Field field, int d) {
 
-                // Проверка на атаку
-                ComputerPlayer target = field.getComputerPlayerAt(newPos);
-                if (target != null) {
-                    this.attack(target);
-                    spendMovementPoints(1);
-                    return;
-                }
+        Position newPos = new Position(position.x() + dx, position.y() + dy);
+        int newDiag = diag + d;
+        int cost = movementPoints;
+        double newAccumulatedMovementCoef = accumulatedMovementCoef;
 
-                // Проверка на атаку замка
-                Castle castle = field.getCastleAt(newPos);
-                if (castle != null) {
-                    if (castle != myCastle) { // Атакуем только ЧУЖИЕ замки
-                        castle.takeDamage(power);
-                        System.out.println("Вы атакуете вражеский замок! Здоровье: " + castle.getHealth());
-                    } else {
-                        System.out.println("Это ваш замок, атака невозможна!");
-                    }
-                    return;
-                }
+        //Проверка возможность перемещения по позиции
+        if (!isValidPosition(newPos)) {
+            System.out.println("Невозможно переместиться в эту позицию!");
+            return;
+        }
 
-                // Обычное перемещение
-                spendMovementPoints(1);
-                System.out.println("Вы переместились на: " + newPos);
-                field.moveObject(this, position.x(), position.y(), newPos.x(), newPos.y());
-                this.position = newPos;
-
-            } else {
-                System.out.println("Невозможно переместиться в эту позицию!");
-            }
-        } else {
+        //Проверка возможность перемещения по очкам диагонали
+        if (!isValidPoints(newDiag, d)) {
             System.out.println("Недостаточно очков для перемещения!");
+            return;
+        }
+
+        // Накопление коэффициента
+        newAccumulatedMovementCoef += (1.0 - field.getCell(newPos.x(), newPos.y()).getTerrainType().getModifier());
+
+        // Проверка на атаку замка
+        if (castleCheck(field, newPos)) {
+            return;
+        }
+
+        // Проверка на атаку противника
+        if (targetCheck(field, newPos)) {
+            return;
+        }
+
+        //Трата второго очка передвижения после второй диагонали
+        if (newDiag % 2 == 0 && d != 0) {
+            cost--;
+        }
+
+        //Трата очков за каждый ход и очков коэффициента поля
+        cost--;
+        cost -= (int)newAccumulatedMovementCoef;
+
+        //Проверка стоимости
+        if(cost < 0){
+            System.out.println("Недостаточно очков для перемещения!");
+            return;
+        }
+
+        accumulatedMovementCoef =newAccumulatedMovementCoef - (int)newAccumulatedMovementCoef;
+        int finalCost = movementPoints - cost;
+        spendMovementPoints(finalCost);
+        System.out.println("Вы переместились на: " + newPos);
+        diag = newDiag;
+        field.moveObject(this, this.position.x(), this.position.y(), newPos.x(), newPos.y());
+        this.position = newPos;
+
+    }
+
+    public boolean targetCheck(Field field, Position newPos) {
+        ComputerPlayer target = field.getComputerPlayerAt(newPos);
+        if (target != null) {
+            this.attack(target);
+            spendMovementPoints(1);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void move(int dx, int dy, Field field, int d) {
-        diag += d;
-        if (((movementPoints > 0) && (diag % 2 == 1)) || ((movementPoints > 1) && (diag % 2 == 0))) {
-            Position newPos = new Position(position.x() + dx, position.y() + dy);
-            if (isValidPosition(newPos)) {
-
-                // Проверка на атаку замка
-                Castle castle = field.getCastleAt(newPos);
-                if (castle != null) {
-                    if (castle != myCastle) { // ЧУЖИЕ замки?
-                        spendMovementPoints(1);
-                        castle.takeDamage(power);
-                        System.out.println("Вы атакуете вражеский замок! Здоровье: " + castle.getHealth());
-                    } else {
-                        System.out.println("Это ваш замок, атака невозможна!");
-                    }
-                    return;
-                }
-
-                // Проверка на атаку
-                ComputerPlayer target = field.getComputerPlayerAt(newPos);
-                if (target != null) {
-                    this.attack(target);
-                    spendMovementPoints(1);
-                    return;
-                }
-
-                if (diag % 2 == 0) {
-                    spendMovementPoints(1);
-                }
-
-                spendMovementPoints(1);
-                System.out.println("Вы переместились на: " + newPos);
-                field.moveObject(this, this.position.x(), this.position.y(), newPos.x(), newPos.y());
-                this.position = newPos;
-
+    public boolean castleCheck(Field field, Position newPos) {
+        Castle castle = field.getCastleAt(newPos);
+        if (castle != null) {
+            if (castle != myCastle) { // Атакуем только ЧУЖИЕ замки
+                castle.takeDamage(power);
+                System.out.println("Вы атакуете вражеский замок! Здоровье: " + castle.getHealth());
             } else {
-                System.out.println("Невозможно переместиться в эту позицию!");
+                System.out.println("Это ваш замок, атака невозможна!");
             }
-        } else {
-            System.out.println("Недостаточно очков для перемещения!");
+            return true;
         }
+        return false;
     }
 
     public boolean isValidPosition(Position newPos) {
         return newPos.x() >= 0 && newPos.x() < 10 && newPos.y() >= 0 && newPos.y() < 10;
+    }
+
+    public boolean isValidPoints(int newDiag, int oldDiag) {
+        return (((movementPoints > 0) && (newDiag % 2 == 1)) ||
+                ((movementPoints > 1) && (newDiag % 2 == 0) && (oldDiag != 0)) ||
+                ((movementPoints > 1) && (oldDiag == 0)));
     }
 }

@@ -4,6 +4,7 @@ import game.api.FieldObject;
 import game.api.Position;
 import game.model.building.onmap.Castle;
 import game.model.player.ComputerPlayer;
+import game.model.player.HumanPlayer;
 import game.model.player.Player;
 
 public class Field {
@@ -52,20 +53,20 @@ public class Field {
         for (int y = 0; y < height; y++) {
             // Верхняя граница строки
             for (int x = 0; x < width; x++) {
-                System.out.print("+---");
+                System.out.print("+----");
             }
             System.out.println("+");
 
             // Содержимое клеток
             for (int x = 0; x < width; x++) {
-                System.out.print("|" + grid[x][y].getDisplaySymbol());
+                System.out.print("| " + grid[x][y].getDisplaySymbol());
             }
             System.out.println("|");
         }
 
         // Нижняя граница
         for (int x = 0; x < width; x++) {
-            System.out.print("+---");
+            System.out.print("+----");
         }
         System.out.println("+");
     }
@@ -76,6 +77,18 @@ public class Field {
             for (FieldObject obj : cell.getObjects()) {
                 if (obj instanceof ComputerPlayer) {
                     return (ComputerPlayer) obj;
+                }
+            }
+        }
+        return null;
+    }
+
+    public HumanPlayer getHumanPlayerAt(Position pos) {
+        Cell cell = getCell(pos.x(), pos.y());
+        if (cell != null) {
+            for (FieldObject obj : cell.getObjects()) {
+                if (obj instanceof HumanPlayer) {
+                    return (HumanPlayer) obj;
                 }
             }
         }

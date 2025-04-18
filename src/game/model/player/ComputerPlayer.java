@@ -30,7 +30,7 @@ public class ComputerPlayer extends Player {
         Castle targetCastleObj = field.getCastleAt(targetCastle);
         if (getPosition().equals(targetCastleObj.getPosition()) && targetCastleObj != null) {
             targetCastleObj.takeDamage(power);
-            System.out.println("Компьютер атакует ваш замок, у него осталось" + targetCastleObj.getHealth() + "hp!");
+            System.out.println("Компьютер атакует ваш замок, у него осталось " + targetCastleObj.getHealth() + " hp!");
         }
     }
 

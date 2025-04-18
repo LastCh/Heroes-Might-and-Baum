@@ -21,6 +21,7 @@ public abstract class Player extends FieldObject implements Movable {
     protected int health;
     protected int power;
     protected int gold;
+    protected double accumulatedMovementCoef = 0.0;
 
     public Player(Position startPosition, Direction startDirection, String colorCode, Castle castle, int priority, int points, int gold) {
         super(startPosition, colorCode + "☻" + " " + "\u001B[0m", priority);
@@ -126,6 +127,8 @@ public abstract class Player extends FieldObject implements Movable {
     }
 
     public void resetMovementPoints() {
-        movementPoints = 5;
+        movementPoints = maxMovementPoints;
+        diag = 0;
+        accumulatedMovementCoef = 0.0;
     }
 }
